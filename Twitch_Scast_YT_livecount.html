@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer>
+</script>
+</head>
+
+<body>
+       <script src="https://apis.google.com/js/platform.js"></script>
+       <script src="https://apis.google.com/js/platform.js" async defer>
+</script>
+    <script>
+        var twitch = ["shroud", "rockalone", "starladder_cs_pl", "lustvangoth","mcm4ry124"];
+        for (var i = 0; i <= twitch.length - 1; i++) {
+            $.ajax({
+                type: 'GET',
+
+                url: 'https://api.twitch.tv/kraken/channels/' + twitch[i],
+                headers: {
+                    'Client-ID': 'APIKEY'
+                },
+                success: function(dataa) {
+                    console.log(dataa);
+                    var ide = dataa['_id'];
+
+                    fetch('https://api.twitch.tv/kraken/streams/' + ide, {
+                        headers: new Headers({
+                            'Client-Id': 'API KEY',
+                            'Accept': 'application/vnd.twitchtv.v5+json'
+                        })
+                    }).then(response => response.json()).then(data => {
+                        /*if (JSON.stringify(data['status']) == 'null') {
+                            document.write("offline");
+                        }
+                        if (JSON.stringify(data['status']) != 'null') {
+                            document.write(JSON.stringify("<p id=" + i + "><a href=" + data['url'] + "><img src=" + data['logo'] + "></a><br>" + data['status'] + " " + count + " " + data['game'] + "</p>").replace(/\"/g, ""));
+
+
+                            //document.write("<p></p>");
+                        }
+                        */
+                        //console.log(data);
+                        if (data.stream == 'null' || data.stream == null) {
+                            //document.write("<p>OFFLINE<br><img src="+data.stream.logo+"></p>");
+                            document.write(JSON.stringify("<a href=" + dataa['url'] + " style='text-decoration:none'><div style='background-color:lightcoral;width:300px;height:auto;border-radius:20px;overflow:hidden;color:white;float:left'><img height='140px' style='float:left' src=" + dataa['logo'] + "><p style='text-align:center;font-size:21px;'><b>" + dataa['display_name'] + "</b></p><p style='text-align:center'>OFFLINE" + "</p></div></a>").replace(/\"/g, ""));
+                        }
+                        if (data.stream != 'null' || data.stream != null || data.stream != "" || data != null) {
+                            document.write("<a href=" + data.stream.channel.url + " style='text-decoration:none'><div style='background-color:green;width:400px;height:auto;border-radius:20px;overflow:hidden;color:white;float:left'><img height='140px' src=" + data.stream.channel.logo + " style='float:left'><p style='text-align:center;font-size:21px;'><b>" + data.stream.channel.display_name + "</b></p><p style='text-align:center'>Online: " + data.stream.viewers + "</p><p style='text-align:center'>" + data.stream.channel.game + "</p></div></a>");
+                        }
+                    });
+                }
+            });
+        }
+
+        var hitbox = ["dota2eazye", "kyokarilyo"];
+        for (var i = 0; i <= hitbox.length - 1; i++) {
+
+            var hitboxAPI = 'https://api.smashcast.tv/user/' + hitbox[i];
+            jsonList = [];
+            $.ajax({
+                url: hitboxAPI,
+                type: 'GET',
+                crossDomain: true,
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    if (data['is_live'] == 1) {
+                        document.write("<a href=https://www.smashcast.tv/" + data['user_name'] + " style='text-decoration:none'><div style='background-color:green;width:400px;height:auto;border-radius:20px;overflow:hidden;color:white;float:left'><img height='140px' style='float:left' src='https://edge.sf.hitbox.tv" + data['user_logo'] + "'><p style='text-align:center;font-size:21px;'><b>" + data['user_name'] + "</b></p><p style='text-align:center'>Followers: " + data['followers'] + "<br><br><b>ONLINE</b></p></div></a>");
+                    } else {
+                        document.write("<a href=https://www.smashcast.tv/" + data['user_name'] + " style='text-decoration:none'><div style='background-color:lightcoral;width:300px;height:auto;border-radius:20px;overflow:hidden;color:white;float:left'><img height='140px' style='float:left' src='https://edge.sf.hitbox.tv" + data['user_logo'] + "'><p style='text-align:center;font-size:21px;'><b>" + data['user_name'] + "</b></p><p style='text-align:center'>OFFLINE</p></div></a>");
+                    }
+                }
+            });
+        }
+  
+        var ytt = ["UCcfsQvpGGAl4kyaOKjt6PVQ","UCZ1MLwA-6jk9zQtBXT5N1Lw","UC0kLTLosqh6GH6L19I-3EgA"];
+        for (var j = 0; j <= ytt.length ; j++) {
+
+            var yt = 'https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true&order=date&part=snippet&part=subscriberSnippet&channelId='+ytt[j]+'&type=video&eventType=live&maxResults=1&key=APIKEY';
+            //var yt = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&forUsername=djwdd&key=AIzaSyCjxfDCV86bpwzRjGBOYWgQTilWHsHDcEo';
+            
+            jsonList2 = [];
+            $.ajax({
+                url: yt,
+                type: 'GET',
+                //crossDomain: true,
+                dataType: 'json',
+                success: function(datas) {
+                    //console.log(datas);
+                   /*if(datas['items']['length']==0){
+                        document.write("<a href=https://www.youtube.com/channel/" + ytt[j] + " style='text-decoration:none'><div style='background-color:lightcoral;width:300px;height:auto;border-radius:20px;overflow:hidden;color:white;float:left'><img height='140px' style='float:left' src='https://lh3.googleusercontent.com/Ned_Tu_ge6GgJZ_lIO_5mieIEmjDpq9kfgD05wapmvzcInvT4qQMxhxq_hEazf8ZsqA=w300'><p style='text-align:center;font-size:21px;'><b>" + ytt[j] + "</b></p><p style='text-align:center'>OFFLINE</p></div></a>");
+                        return;
+                        //OFFLINE
+                    }*/
+                    if(datas['items']['0']['snippet']['liveBroadcastContent']=="live"){
+                        document.write("<a href=https://www.youtube.com/channel/" + datas['items']['0']['snippet']['channelId'] + " style='text-decoration:none'><div style='background-color:green;width:400px;height:auto;border-radius:20px;overflow:hidden;color:white;float:left'><img height='140px' width='140px' style='float:left' src='https://i.ytimg.com/vi/"+datas['items']['0']['id']['videoId']+"/hqdefault_live.jpg'><p style='text-align:center;font-size:21px;'><b>" +datas['items']['0']['snippet']['channelTitle']+ "</b></p><p style='text-align:center'>"+datas['items']['0']['snippet']['title']+"</p><p style='text-align:center'><b>ONLINE</b></p></div></a>");
+                        
+                        //return;
+                    }
+                    
+                    
+                    
+                }
+            });
+        }
+        
+        var ytstat = ["djwdd","reZiPlayGamesAgain","SiududAI"];
+        for (var k = 0; k <= ytstat.length -1; k++) {
+
+            //var yt = 'https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true&order=date&part=snippet&part=subscriberSnippet&channelId='+ytt[j]+'&type=video&eventType=live&maxResults=1&key=AIzaSyCjxfDCV86bpwzRjGBOYWgQTilWHsHDcEo';
+            var yts = 'https://www.googleapis.com/youtube/v3/channels?part=brandingSettings&forUsername='+ytstat[k]+'&key=APIKEY';
+            
+            jsonList2 = [];
+            $.ajax({
+                url: yts,
+                type: 'GET',
+                //crossDomain: true,
+                dataType: 'json',
+                success: function(datay) {
+                    //console.log(datay);
+                   
+                   
+                        document.write("<a href=https://www.youtube.com/channel/" + datay['items']['0']['id']+" style='text-decoration:none; color:black'><div style='background-color:white;border:1px solid black;width:400px;height:auto;border-radius:20px;overflow:hidden;color:red;float:left'><img style='background-size:cover;' height=auto width=100% src="+datay['items']['0']['brandingSettings']['image']['bannerMobileLowImageUrl']+"><p style='text-align:center;font-size:21px;'><b>"+datay['items']['0']['brandingSettings']['channel']['title']+"</b></p></a></div>");
+                        
+                        //return;
+                    
+                
+                    
+                    
+                }
+            });
+        }
+        
+
+    </script>
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer>
+</script>
+</body>
+
+</html>
